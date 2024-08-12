@@ -1,0 +1,191 @@
+[
+  {
+    "objectID": "webR-welcome/index.html",
+    "href": "webR-welcome/index.html",
+    "title": "Welcome to R :)",
+    "section": "",
+    "text": "An example of using webR to demonstrate R without requiring installation."
+  },
+  {
+    "objectID": "webR-welcome/index.html#what-is-this",
+    "href": "webR-welcome/index.html#what-is-this",
+    "title": "Welcome to R :)",
+    "section": "",
+    "text": "An example of using webR to demonstrate R without requiring installation."
+  },
+  {
+    "objectID": "webR-welcome/index.html#what-is-r",
+    "href": "webR-welcome/index.html#what-is-r",
+    "title": "Welcome to R :)",
+    "section": "What is R?",
+    "text": "What is R?\nR is a programming language with built in tools for data handling and analysis, plots, and statistics.\nIt comes with some example data, and built in documentation for said data. The documentation system is vast, and can be accessed with ?.\nLet’s try R out! The block below will let you execute R (Shift+Enter is the keyboard shortcut). Run the current code, modify it to say str(USArrests), and run that.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nstr() is a function that summarises the structure of the data. There’s also summary(), which gives more information about the contents of the data. For the most part, R will print information when you submit a name on its own, without a function. Look at what it does when you remove summary and the parenthases and execute just USArrests. What about just summary?\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nsummary is a function, so executing it on its own without providing it with an input prints information about the function. It’s a function from the “low level” base package, so we don’t get a whole lot. Luckily, ?summary exists to give us more information! Run it below.\nWhat’s that about “various model fitting functions”? R has many built in tools for statistical modeling, such as linear modeling. We’ll get to that soon. For now, don’t worry about that, or about all the jargon in the documentation for summary. For now, focus on learning what sorts of things you can find in the documentation. If you’re serious about learning R, you’ll spend a lot of time in the documentation to learn things such as “what arguments does summary have?”, but you’ll also need a search engine for things like “what map making extensions are available for R” (usmap and choroplethrZip are my favorites). Funny enough, once you start using new tools you find via a search engine you’ll often find yourself back in R docs for more detailed information, but nonetheless they don’t have everything. They have a description, example code with comments (comments start with #), definitions of arguments, and more. Comments are really important when writing “real” code, because they help us remember why things are the way they are by letting us leave text that is not executed. Try putting a # before the code below and rerunning it.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nNothing happens! Comments are for humans, they aren’t executed by R.\nNow, back to linear modeling. You can get the coefficients to a best fitting line from a regression of the USArrests Assault variable on the UrbanPop variable like so. You can get more information, such as p-values, by wrapping it in summary().\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nYou can create a scatter plot like so. Use ?plot and ?USArrests to get the information you need to label the chart properly, with a title and proper units on the axis.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThere seems to have been a positive correlation between the percent of a states population living in urban areas, and the number of arrests for assault per hundred thousand residents in a state in 1973. But there are also outliers. We can find out which states those outliers in the top left corner are by subsetting the data to include only those states with &lt;55% of their population in urban areas and &gt;200 assault arrests per hundred thousance residents.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nWe’re quickly doing a lot of analysis! Many such tasks can be done with just a few commands in R, so long as you know the syntax. Let’s review the syntax demonstrated thus far more thouroughly.\n?USArrests, ? is a function and USArrests is the name of some data. ? might seem an odd function, it’s short for help(). You can use help(USArrests) instead, but it’s more typing. In R, most everything is either a function or data. Functions are usually prefix functions, and data is often a table, but there are many exceptions to both of those statements.\nPrefix functions come before arguments wrapped in parenthases and separated by commas, Infix functions are placed between arguments. Most functions in R are prefix functions, but not all, and many infix functions will let you call them as prefix functions by wrapping the function name in backticks, as in this example. In practice, the backtick trick is most used if you want the documentation for an infix function.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nsummary(USArrests) is a more straightforward combination of a function and data, in the form more commonly seen.\nlm(USArrests$Assault ~ USArrests$UrbanPop) is also a function with data. Unlike ?USArrests, where the function seemed weird and the data seemed normal. Here the function is normal and the data is weird. Let’s unpack that data.\n\n~ denotes that the data is a “formula”. Formulas are used extensively for base R’s statistical facilities, but are otherwise not particularly prevalent.\n$ is an extraction operator, used to extract the columns from the table, or in more jargony general terms, a named element from a list.\nUSArrests$Assault ~ USArrests$UrbanPop is a formula for modelling the Assault element of the USArrests data.frame as a function of the UrbanPop element of the same.\n\nWhat’s all this about columns, tables, lists, and data.frames? We’ll come back to that. For now, let’s continue to build our vocabulary for the syntax we’ve already seen. The vocabulary will start to make more sense as the concepts become ingrained, and the concepts will become ingrained with practice.\nattach(USArrests)\nplot(Assault ~ UrbanPop)\nHere, rather than using the $ to extract the elements of USArrests one at a time explicitely, we used the attach() function to “extract” everything (the jargony phrase is “attach all elements to the global environment”). This is a handy trick for quick analysis, but must be used with great care if the code is intended to be reused. We’ll be pretty cavaier with it in this resource, but you really should be cautious about using it in important code. From now on, we’ll be neater and detach() what we attach().\nTry out attach(), detach(), and $ below to see what they give you. First, start with a clean slate by detaching what we’ve attached.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nsubset(USArrests, UrbanPop &lt; 55 & Assault &gt; 200) is a function with two arguments. The first argument is the dataset (or in R jargon, data.frame), and the second argument is a vector, the result of applying multiple boolean (i.e., resulting in TRUE or FALSE. aka logical) functions to multiple vectors. subset returned the rows of the data.frame for which the second argument was TRUE. Examine the outputs below to get a better understanding of the second argument.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nMore often, you’ll see subset used as an infix operator like below.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n[ has a flexible syntax, it let’s you do things like:\n\ndataset[\"row_name(s)\", \"column_name(s)\"]\ndataset[row_number(s), column_number(s)].\ndataset[logical_vector(s), logical_vector(s)]\nDifferent mechanism for the row and column arguments, such as dataset[logical_vector, column_number]\n\nTry it out with the USArrests data below.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page."
+  },
+  {
+    "objectID": "webR-welcome/index.html#r-data-structures",
+    "href": "webR-welcome/index.html#r-data-structures",
+    "title": "Welcome to R :)",
+    "section": "R Data Structures",
+    "text": "R Data Structures\nWe’ve overviewed some of R’s unique strengths in regards to data, modelling, and plotting, as well as the associated syntax. While getting started, we can oversimplify and describe everything in R as either data or a function. In this section, we’ll focus on examining data more closely.\n\nVectors\nIn R, vectors are the simplest data structure, not scalars. This is a unique feature, and is incredibly useful for working with tabular data as in statistics. We get vectorized operations “out-of-the-box” with R.\nBelow, : is an infix function for creating a vector as a range of integers as start:end. c() is a function for combining vectors. rep(thing_to_repeat, repeated_this_many_times) is another function. These are just a few ways to create vectors. You can assign the value of a vector to a name with &lt;- (often called a variable in programming).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nNotice that 1:3 * 2 and 1:3 * rep(2,3) return the same result? This is because of R’s recycling rules, when you try to perform an element-by-element operation using vectors with sizes that don’t match, R repeats the shorter one so that it “grows” to the right size. For 1:3 * 2 the shorter vector is of length 1, is repeated to match the longer vector of length 3, and therefore works as expected. Recycling of shorter vectors is really convinient, but causes strange results sometimes, as in 1:3 * 1:2.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nIn the examples above, we’ve only dealt with integer vectors. We can also create character vectors, double precision floating point number vectors, and logical vectors. These constitute the atomic vectors most commonly used.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nLogical vectors are frequently created using comparison operators.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nR will coerce the types of vectors as needed in order to perform operations. It will “try it’s best” to give an answer by coercing from logical to number to character as needed.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThis type coercion is considered cringe by some. Whole languages such as TypeScript exist on the premise that such type coersion is bad form. For R though, I think it makes sense. It let’s you do things like count the multiples of 17 from 1 to 100 like so (%% is the modulus operator, it returns the remainder of dividing the thing on the left by the thing on the right).\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nAlright, that’s a contrived example. We’ll get to a more realistic one before too long.\nBe careful with type conversion in complex code, it can have unexpected results, such as if it tries to combine an integer and a character vector. All elements of a vector must have the same type, which is why typeof(c(1:3, 'cat')) coerces the numbers to characters and evaluates to “character”.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nThe last important vector is the vector of vectors, also known as recursive vectors, or lists. Lists allow (but don’t require) you to give a name to each vector, and lists may contain any type of vector of any length, including other lists! If the vector (right side of =) is given a name (left side of =), then you can extract it with $name or [[\"name\"]]. Regardless of name, you can extract elements by number.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\n\n\nData Frames\nR does have data structures for matrices (including matrics with &gt; 2 dimensions, which it calls arrays), but the most common data structure for 2 dimmensional, tabular data is the data.frame. A data frame is a special kind of list that requires all elements have the same length, has additional properties like rownames, and gets special treatment from many functions.\nstate &lt;- data.frame(short_name = state.abb, long_name = state.name)\nstate\n#typeof(state)\n#rownames(state)\n#str(state)\nYou can assign new elements (aka columns or variables) to the list / data.frame. Below, grepl() is a function that returns TRUE if the text in the first argument is included in the text of the second argument. If you think grepl is a terribly weird name for such a function, you’re not alone (more on that towards the end). This video, and ?grepl, have hints at what the author was likely thinking when they chose such a name.\nstate$starts_with_A &lt;- grepl('A', state$long_name)\n#str(state)\n#head(state, 10)\n#tail(state, 10)\ncount_of_states_that_start_with_A &lt;- sum(state$starts_with_A)\nThere are many more data structures available for R, but with the most common covered let’s move on to functions."
+  },
+  {
+    "objectID": "webR-welcome/index.html#r-functions",
+    "href": "webR-welcome/index.html#r-functions",
+    "title": "Welcome to R :)",
+    "section": "R Functions",
+    "text": "R Functions\nR, at its heart, is a functional language. This means a few things:\n\nWe often solve problems by composing several functions which all have clear and explicit inputs and outputs, and are individually simple, but taken together achieve complex operations in bite sized bits.\nWe can do crazy things with functions, such as accept functions as arguments, or return functions.\n\nFor example, count the states by the first letter of their name like so.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nsapply is a function that simplifies the result off applying the function provided as the second argument, to each element of the vector provided in the first argument.\nThere are pinches of syntactic sugar that we can add to make the operation read more like an english sentence, |&gt; and \\(). |&gt; takes the result of the thing on the left and passes it to the first argument of the thing on the right. \\() is short for function (). Together, they let us rewrite the above like so.\n\nPlease enable JavaScript to experience the dynamic code cell content on this page.\nWhich reads: - start with the state.name vector, and then - take the substring of it starting with the first character and keeping 1 character, and then - take the unique values, and then - simply apply a function that returns the sum of the number of times the argument is equal to the first letter of the state.names vector to every element."
+  },
+  {
+    "objectID": "webR-welcome/index.html#the-end-of-my-work-so-far",
+    "href": "webR-welcome/index.html#the-end-of-my-work-so-far",
+    "title": "Welcome to R :)",
+    "section": "The End (of my work so far)",
+    "text": "The End (of my work so far)\nWe’ve meandered through a few of the things that make R special, including:\n\nBuilt in documention\nCounting that starts at 1 (most programming languages start counting at 0)\nRich data structures built in, in particular, for tabular data\nAnalytical tools such as for statistics and plotting provided in base R, with no extra packages needed\n\nOther things that make R special that we haven’t gone over are:\n\nIt also has a vast ecosystem of extensions\nIt priveleges functional programming stylers\n\nThis resource is a work in progress. We’ll include more material over time."
+  },
+  {
+    "objectID": "webR-welcome/index.html#going-further",
+    "href": "webR-welcome/index.html#going-further",
+    "title": "Welcome to R :)",
+    "section": "Going Further",
+    "text": "Going Further\nTo get all the R goodies, you’ll have to install it. Refer to your organization’s guidance, or a CRAN mirror for more info."
+  },
+  {
+    "objectID": "blog/second-post/index.html",
+    "href": "blog/second-post/index.html",
+    "title": "Second Post",
+    "section": "",
+    "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Amet cursus sit amet dictum sit amet. Eget duis at tellus at urna condimentum. Convallis aenean et tortor at risus viverra. Tincidunt ornare massa eget egestas purus viverra accumsan. Et malesuada fames ac turpis egestas. At imperdiet dui accumsan sit amet. Ut ornare lectus sit amet est placerat. Enim nulla aliquet porttitor lacus luctus accumsan tortor posuere. Duis ultricies lacus sed turpis tincidunt id aliquet risus. Mattis enim ut tellus elementum sagittis. Dui id ornare arcu odio ut. Natoque penatibus et magnis dis. Libero justo laoreet sit amet cursus sit. Sed faucibus turpis in eu. Tempus iaculis urna id volutpat lacus laoreet.\nPhasellus vestibulum lorem sed risus. Eget felis eget nunc lobortis mattis. Sit amet aliquam id diam maecenas ultricies. Egestas maecenas pharetra convallis posuere morbi. Etiam erat velit scelerisque in dictum non consectetur a erat. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Viverra accumsan in nisl nisi scelerisque. Et netus et malesuada fames ac. Amet tellus cras adipiscing enim eu turpis egestas pretium aenean. Eget lorem dolor sed viverra ipsum nunc aliquet. Ultrices dui sapien eget mi proin sed libero enim sed. Ultricies mi eget mauris pharetra et ultrices neque. Ipsum suspendisse ultrices gravida dictum. A arcu cursus vitae congue mauris rhoncus aenean vel. Gravida arcu ac tortor dignissim convallis. Nulla posuere sollicitudin aliquam ultrices."
+  },
+  {
+    "objectID": "projects/index.html",
+    "href": "projects/index.html",
+    "title": "Projects",
+    "section": "",
+    "text": "Predicting House Prices with Machine Learning\n\n\n\nPython\n\n\nMachine Learning\n\n\nData Cleaning\n\n\n\nThis project involves using machine learning algorithms to predict house prices based on various features such as location, size, and amenities. It includes data cleaning, feature engineering, and model selection.\n\n\n\nJan 1, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCustomer Segmentation Using Clustering Techniques\n\n\n\nR\n\n\nMachine Learning\n\n\nClustering\n\n\nStatistical Modelling\n\n\n\nThis project focuses on segmenting customers into different groups based on their purchasing behavior and demographics. It uses clustering algorithms like K-means and hierarchical clustering to identify distinct customer segments.\n\n\n\nApr 1, 2024\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVisualizing Global CO2 Emissions\n\n\n\nR\n\n\nData Visualization\n\n\nEnvironmental Science\n\n\n\nThis project involves creating visualizations to show trends in global CO2 emissions over time. It includes data extraction from public databases, data cleaning, and using visualization libraries to create interactive charts and graphs.\n\n\n\nJul 1, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "git-slides/index.html",
+    "href": "git-slides/index.html",
+    "title": "Welcome to Git",
+    "section": "",
+    "text": "Abstractions are mental models.\nAdopting the git way of thinking involves “leveling up” your abstraction of what matters in files and directories.\nAbstractions are hard, so don’t worry if you don’t get it right away.\n\nLet’s set up for an analogy to familiar abstractions; numbers, tables, and plots.\n\n\n\nBellamy was just born and weighs 8lbs. Conner is 26 and weighs 142lbs. Drew is 44 and weighs 209lbs. Erick is 52 and weighs 150lbs.\n\n\n\n\n\n\nName\nAge\nWeight\n\n\n\n\nBellamy\n0\n8\n\n\nConner\n26\n142\n\n\nDrew\n44\n209\n\n\nErick\n52\n150"
+  },
+  {
+    "objectID": "git-slides/index.html#what-now",
+    "href": "git-slides/index.html#what-now",
+    "title": "Welcome to Git",
+    "section": "",
+    "text": "Abstractions are mental models.\nAdopting the git way of thinking involves “leveling up” your abstraction of what matters in files and directories.\nAbstractions are hard, so don’t worry if you don’t get it right away.\n\nLet’s set up for an analogy to familiar abstractions; numbers, tables, and plots."
+  },
+  {
+    "objectID": "git-slides/index.html#numbers",
+    "href": "git-slides/index.html#numbers",
+    "title": "Welcome to Git",
+    "section": "",
+    "text": "Bellamy was just born and weighs 8lbs. Conner is 26 and weighs 142lbs. Drew is 44 and weighs 209lbs. Erick is 52 and weighs 150lbs."
+  },
+  {
+    "objectID": "git-slides/index.html#table",
+    "href": "git-slides/index.html#table",
+    "title": "Welcome to Git",
+    "section": "",
+    "text": "Name\nAge\nWeight\n\n\n\n\nBellamy\n0\n8\n\n\nConner\n26\n142\n\n\nDrew\n44\n209\n\n\nErick\n52\n150"
+  },
+  {
+    "objectID": "git-slides/index.html#git-terminology",
+    "href": "git-slides/index.html#git-terminology",
+    "title": "Welcome to Git",
+    "section": "Git Terminology",
+    "text": "Git Terminology\n\nCommits are snapshots of work at a point.\nBranches are convenient names for the most recent commit in a work stream.\nRemotes are other repositories the code is aware of.\nMerging takes multiple branches from local or remote repos and combines them."
+  },
+  {
+    "objectID": "git-slides/index.html#git-terms-analogized-to-the-familiar-abstractions",
+    "href": "git-slides/index.html#git-terms-analogized-to-the-familiar-abstractions",
+    "title": "Welcome to Git",
+    "section": "Git Terms Analogized to the Familiar Abstractions",
+    "text": "Git Terms Analogized to the Familiar Abstractions\n\nSaved files are like numbers.\nCommits are like tables.\nBranches are like plots."
+  },
+  {
+    "objectID": "git-slides/index.html#abstractions-help-organize-information",
+    "href": "git-slides/index.html#abstractions-help-organize-information",
+    "title": "Welcome to Git",
+    "section": "Abstractions help Organize Information",
+    "text": "Abstractions help Organize Information"
+  },
+  {
+    "objectID": "git-slides/index.html#git-vs-github",
+    "href": "git-slides/index.html#git-vs-github",
+    "title": "Welcome to Git",
+    "section": "Git vs GitHub",
+    "text": "Git vs GitHub\n\nGit is a tool for managing source code.\nGitHub augments git with tools for discussing source code."
+  },
+  {
+    "objectID": "git-slides/index.html#github-terminology",
+    "href": "git-slides/index.html#github-terminology",
+    "title": "Welcome to Git",
+    "section": "GitHub Terminology",
+    "text": "GitHub Terminology\n\nIssues are documented needs for change.\nPull Requests are running requests to merge changes from a branch."
+  },
+  {
+    "objectID": "git-slides/index.html#what-was-learned",
+    "href": "git-slides/index.html#what-was-learned",
+    "title": "Welcome to Git",
+    "section": "What was Learned",
+    "text": "What was Learned\n\nKey terms for Git and GitHub\nHow to make commits and resolve merge conflicts"
+  },
+  {
+    "objectID": "git-slides/index.html#advanced-features",
+    "href": "git-slides/index.html#advanced-features",
+    "title": "Welcome to Git",
+    "section": "Advanced Features",
+    "text": "Advanced Features\n\nYou can undo specific commits with git revert\nYou can grab specific files from specific commits with git checkout\nYou can move a set of changes to a different branch with git rebase\nYou can pluck specific commits from a branch’s history with git cherry-pick"
+  },
+  {
+    "objectID": "git-slides/index.html#impacts-on-workflow",
+    "href": "git-slides/index.html#impacts-on-workflow",
+    "title": "Welcome to Git",
+    "section": "Impacts on Workflow",
+    "text": "Impacts on Workflow\n\nIt enables us to organize code by project and deliverable, regardless of who ran the code where.\nIt enables us to organize changes by the goal they accomplished.\nIt anchors discussion to specific code, and specific changes.\nIt encourages us to think in incremental changes, which can be a helpful mindset for large projects.\nIt makes it easier to share code."
+  },
+  {
+    "objectID": "git-slides/index.html#how-to-get-started",
+    "href": "git-slides/index.html#how-to-get-started",
+    "title": "Welcome to Git",
+    "section": "How to get started?",
+    "text": "How to get started?\n\nGo make a repository!\nStruggle on."
+  },
+  {
+    "objectID": "git-slides/index.html#links-to-other-resources",
+    "href": "git-slides/index.html#links-to-other-resources",
+    "title": "Welcome to Git",
+    "section": "Links to Other Resources",
+    "text": "Links to Other Resources\n\nVideos\n\nGit 1: What is Git? - YouTube\nWhat is GitHub? - YouTube\nGit and GitHub for Beginners - Crash Course\n\nDocumentation\n\nGit - Documentation (git-scm.com)\n\nCheat Sheets\n\nGit Cheatsheet :: NDP Software"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Conner Smith",
+    "section": "",
+    "text": "Learning Quarto websites at posit::conf(2024), by wrapping up other fodder I had lying about."
+  },
+  {
+    "objectID": "index.html#related-links",
+    "href": "index.html#related-links",
+    "title": "Conner Smith",
+    "section": "Related Links",
+    "text": "Related Links\nStarted from this template with quarto use template EmilHvitfeldt/website-template.\nGallery of Examples\nDocumentation on Creating a Website with Quarto\nquarto SCSS Sass variables\nquarto-cli on GitHub"
+  },
+  {
+    "objectID": "blog/third-post/index.html",
+    "href": "blog/third-post/index.html",
+    "title": "Third Blog Post",
+    "section": "",
+    "text": "The source for any page in your website could also be a Jupyter Notebook. This one is third-post/index.ipynb.\nHere’s an example I borrowed from the Seaborn docs:\n\nimport seaborn as sns\n\nsns.set_theme(style=\"whitegrid\")\n\n# Load the diamonds dataset\ndiamonds = sns.load_dataset(\"diamonds\")\n\n# Plot the distribution of clarity ratings, conditional on carat\nsns.displot(\n    data=diamonds,\n    x=\"carat\", hue=\"cut\",\n    kind=\"kde\", height=4, aspect=1.5,\n    multiple=\"fill\", clip=(0, None),\n    palette=\"ch:rot=-.25,hue=1,light=.75\",   \n)"
+  },
+  {
+    "objectID": "blog/first-post/index.html",
+    "href": "blog/first-post/index.html",
+    "title": "First Post",
+    "section": "",
+    "text": "Sed risus ultricies tristique nulla aliquet. Neque volutpat ac tincidunt vitae semper quis lectus nulla.\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Enim sed faucibus turpis in eu mi bibendum neque. Ac orci phasellus egestas tellus rutrum tellus pellentesque eu. Velit sed ullamcorper morbi tincidunt ornare massa. Sagittis id consectetur purus ut faucibus pulvinar elementum integer. Tincidunt nunc pulvinar sapien et ligula ullamcorper malesuada proin libero. Lobortis feugiat vivamus at augue eget arcu. Aliquam ut porttitor leo a diam sollicitudin tempor id eu. Mauris a diam maecenas sed enim ut sem viverra aliquet. Enim ut tellus elementum sagittis vitae et leo duis. Molestie at elementum eu facilisis sed odio morbi quis commodo. Sapien pellentesque habitant morbi tristique senectus. Quam vulputate dignissim suspendisse in est. Nulla pellentesque dignissim enim sit amet venenatis urna cursus eget.\nVelit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum. Viverra mauris in aliquam sem fringilla ut morbi tincidunt augue. Tortor at auctor urna nunc id. Sit amet consectetur adipiscing elit duis tristique sollicitudin. Aliquet nibh praesent tristique magna sit amet purus. Tristique senectus et netus et malesuada fames ac turpis. Hac habitasse platea dictumst quisque. Auctor neque vitae tempus quam pellentesque nec nam aliquam. Ultrices tincidunt arcu non sodales neque sodales ut etiam. Iaculis at erat pellentesque adipiscing. Cras tincidunt lobortis feugiat vivamus. Nisi est sit amet facilisis magna etiam. Pharetra pharetra massa massa ultricies mi quis hendrerit. Vitae sapien pellentesque habitant morbi tristique senectus. Ornare aenean euismod elementum nisi quis eleifend quam adipiscing vitae."
+  }
+]
