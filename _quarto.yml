@@ -3,6 +3,9 @@ project:
 
 website:
   title: "Home"
+  site-url: https://cesbis.github.io/quarto-website-example
+  repo-url: https://github.com/cesBis/quarto-website-example
+  repo-actions: [source]
   open-graph: true # https://quarto.org/docs/websites/website-tools.html#open-graph
   page-footer: "Made with ❤️ and Quarto"
   navbar:
