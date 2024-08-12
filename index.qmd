@@ -14,11 +14,11 @@ about:
       href: https://www.linkedin.com/in/conner-smith-68b906111/
 ---
 
-[Learning Quarto websites at `posit::conf(2024)`](https://posit-conf-2024.github.io/quarto-websites/).
+[Learning Quarto websites at `posit::conf(2024)`](https://posit-conf-2024.github.io/quarto-websites/), by wrapping up other fodder I had lying about.
+
+## Related Links
 
 Started from [this template](https://github.com/EmilHvitfeldt/website-template) with `quarto use template EmilHvitfeldt/website-template`.
-
-[webR-welcome](webR-welcome/index.qmd)
 
 [Gallery of Examples](https://quarto.org/docs/gallery/#websites)
 
