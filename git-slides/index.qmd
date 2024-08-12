@@ -2,14 +2,6 @@
 title: Welcome to Git
 ---
 
-## Outline
-
-- Intro to Concepts (30 min)
-- Some Setup (20min)
-- Break (10min)
-- Exercises (45min)
-- Reflection (15min)
-
 # Abstractions
 
 ## What Now?
