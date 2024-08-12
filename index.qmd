@@ -1,0 +1,19 @@
+---
+title: "Conner Smith"
+subtitle: "Revels in Report Rendering"
+image: profile.jpg
+# https://quarto.org/docs/websites/website-about.html
+about:
+  template: marquee
+  links:
+    - icon: github
+      text: Github
+      href: https://github.com/cesBis
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/conner-smith-68b906111/
+---
+
+[Learning Quarto websites at `posit::conf(2024)`](https://posit-conf-2024.github.io/quarto-websites/).
+
+Started from [this template](https://github.com/EmilHvitfeldt/website-template) with `quarto use template EmilHvitfeldt/website-template`.
