@@ -9,6 +9,11 @@ website:
     right:
       - text: Home
         href: index.qmd
+      - text: Welcome to R
+        href: webR-welcome/index.qmd
+      - text: Welcome to Git
+        href: git-slides/index.qmd
+        icon: git # see https://icons.getbootstrap.com/
       
 format:
   html:

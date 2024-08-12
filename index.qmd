@@ -17,3 +17,13 @@ about:
 [Learning Quarto websites at `posit::conf(2024)`](https://posit-conf-2024.github.io/quarto-websites/).
 
 Started from [this template](https://github.com/EmilHvitfeldt/website-template) with `quarto use template EmilHvitfeldt/website-template`.
+
+[webR-welcome](webR-welcome/index.qmd)
+
+[Gallery of Examples](https://quarto.org/docs/gallery/#websites)
+
+[Documentation on Creating a Website with Quarto](https://quarto.org/docs/websites/)
+
+[quarto SCSS Sass variables](https://quarto.org/docs/output-formats/html-themes.html#sass-variables)
+
+[quarto-cli on GitHub](https://github.com/quarto-dev/quarto-cli)
