@@ -6,14 +6,15 @@ website:
   open-graph: true # https://quarto.org/docs/websites/website-tools.html#open-graph
   page-footer: "Made with ❤️ and Quarto"
   navbar:
-    right:
-      - text: Home
-        href: index.qmd
+    left:
       - text: Welcome to R
         href: webR-welcome/index.qmd
       - text: Welcome to Git
         href: git-slides/index.qmd
         icon: git # see https://icons.getbootstrap.com/
+    tools:
+      - icon: github
+        href: https://github.com/cesBis/quarto-website-example
       
 format:
   html:
