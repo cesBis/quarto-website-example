@@ -1,1 +1,1 @@
-Sitemap: https://cesBis.github.io/quarto-website-example/sitemap.xml
+Sitemap: https://cesbis.github.io/quarto-website-example/sitemap.xml
