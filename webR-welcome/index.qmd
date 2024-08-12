@@ -1,0 +1,286 @@
+---
+title: "Welcome to R :)"
+filters:
+  - webr
+---
+
+## What is this?
+
+An example of using [webR](https://github.com/r-wasm/webr/) to demonstrate R without requiring installation.
+
+## [What is R?](https://www.r-project.org/about.html)
+
+R is a programming language with built in tools for data handling and analysis, plots, and statistics. 
+
+It comes with some example data, and built in documentation for said data. The documentation system is vast, and can be accessed with `?`.
+
+Let's try R out! The block below will let you execute R (Shift+Enter is the keyboard shortcut). Run the current code, modify it to say `str(USArrests)`, and run that.
+
+```{webr-r}
+?USArrests
+```
+
+`str()` is a function that summarises the **str**ucture of the data. There's also `summary()`, which gives more information about the contents of the data. For the most part, R will print information when you submit a name on its own, without a function. Look at what it does when you remove `summary` and the parenthases and execute just `USArrests`. What about just `summary`?
+
+```{webr-r}
+summary(USArrests)
+```
+
+`summary` is a function, so executing it on its own without providing it with an input prints information about the function. It's a function from the "low level" base package, so we don't get a whole lot. Luckily, `?summary` exists to give us more information! Run it below.
+
+What's that about "various model fitting functions"? R has many built in tools for statistical modeling, such as **l**inear **m**odeling. We'll get to that soon. For now, don't worry about that, or about all the jargon in the documentation for `summary`. For now, focus on learning what sorts of things you can find in the documentation. If you're serious about learning R, you'll spend a lot of time in the documentation to learn things such as "what arguments does summary have?", but you'll also need a search engine for things like "what map making extensions are available for R" (`usmap` and `choroplethrZip` are my favorites). Funny enough, once you start using new tools you find via a search engine you'll often find yourself back in R docs for more detailed information, but nonetheless they don't have everything. They have a description, example code with comments (comments start with `#`), definitions of arguments, and more. Comments are really important when writing "real" code, because they help us remember why things are the way they are by letting us leave text that is not executed. Try putting a `#` before the code below and rerunning it.
+
+```{webr-r}
+?summary
+```
+
+Nothing happens! Comments are for humans, they aren't executed by R.
+
+Now, back to **l**inear **m**odeling. You can get the coefficients to a best fitting line from a regression of the `USArrests` `Assault` variable on the `UrbanPop` variable like so. You can get more information, such as p-values, by wrapping it in `summary()`.
+
+```{webr-r}
+lm(USArrests$Assault ~ USArrests$UrbanPop)
+```
+
+You can create a scatter plot like so. Use `?plot` and `?USArrests` to get the information you need to label the chart properly, with a title and proper units on the axis.
+
+```{webr-r}
+attach(USArrests)
+plot(Assault ~ UrbanPop)
+```
+
+There seems to have been a positive correlation between the percent of a states population living in urban areas, and the number of arrests for assault per hundred thousand residents in a state in 1973. But there are also outliers. We can find out which states those outliers in the top left corner are by **subset**ting the data to include only those states with <55% of their population in urban areas and >200 assault arrests per hundred thousance residents.
+
+```{webr-r}
+subset(USArrests, UrbanPop < 55 & Assault > 200)
+```
+
+We're quickly doing a lot of analysis! Many such tasks can be done with just a few commands in R, so long as you know the syntax. Let's review the syntax demonstrated thus far more thouroughly.
+
+`?USArrests`, `?` is a function and `USArrests` is the name of some data. `?` might seem an odd function, it's short for `help()`. You can use `help(USArrests)` instead, but it's more typing. In R, most everything is either a function or data. Functions are usually prefix functions, and data is often a table, but there are many exceptions to both of those statements.
+
+Prefix functions come before arguments wrapped in parenthases and separated by commas, Infix functions are placed between arguments. Most functions in R are prefix functions, but not all, and many infix functions will let you call them as prefix functions by wrapping the function name in backticks, as in this example. In practice, the backtick trick is most used if you want the documentation for an infix function.
+
+```{webr-r}
+`+`(2,2)
+#?`+`
+#2+2
+```
+
+`summary(USArrests)` is a more straightforward combination of a function and data, in the form more commonly seen.
+
+`lm(USArrests$Assault ~ USArrests$UrbanPop)` is also a function with data. Unlike `?USArrests`, where the function seemed weird and the data seemed normal. Here the function is normal and the data is weird. Let's unpack that data.
+
+- `~` denotes that the data is a "formula". Formulas are used extensively for base R's statistical facilities, but are otherwise not particularly prevalent.
+- `$` is an extraction operator, used to extract the columns from the table, or in more jargony general terms, a named element from a list.
+- `USArrests$Assault ~ USArrests$UrbanPop` is a formula for modelling the `Assault` element of the `USArrests` `data.frame` as a function of the `UrbanPop` element of the same.
+
+What's all this about columns, tables, lists, and data.frames? We'll come back to that. For now, let's continue to build our vocabulary for the syntax we've already seen. The vocabulary will start to make more sense as the concepts become ingrained, and the concepts will become ingrained with practice.
+
+```
+attach(USArrests)
+plot(Assault ~ UrbanPop)
+```
+
+Here, rather than using the `$` to extract the elements of `USArrests` one at a time explicitely, we used the `attach()` function to "extract" everything (the jargony phrase is "attach all elements to the global environment"). This is a handy trick for quick analysis, but must be used with great care if the code is intended to be reused. We'll be pretty cavaier with it in this resource, but you really should be cautious about using it in important code. From now on, we'll be neater and `detach()` what we `attach()`.
+
+Try out `attach()`, `detach()`, and `$` below to see what they give you. First, start with a clean slate by `detach`ing what we've `attach`ed.
+
+```{webr-r}
+detach(USArrests)
+#USArrests
+#USArrests$Murder
+#Murder
+#attach(USArrests)
+#Murder
+#detach(USArrests)
+#Murder
+```
+
+`subset(USArrests, UrbanPop < 55 & Assault > 200)` is a function with two arguments. The first argument is the dataset (or in R jargon, `data.frame`), and the second argument is a vector, the result of applying multiple boolean (i.e., resulting in TRUE or FALSE. aka logical) functions to multiple vectors. `subset` returned the rows of the `data.frame` for which the second argument was TRUE. Examine the outputs below to get a better understanding of the second argument.
+
+```{webr-r}
+USArrests$UrbanPop
+#USArrests$UrbanPop < 55
+#USArrests$UrbanPop < 55 & USArrests$Assault > 200
+```
+
+More often, you'll see `subset` used as an infix operator like below.
+
+```{webr-r}
+?`[`
+#USArrests[USArrests$UrbanPop < 55 & USArrests$Assault > 200, c('UrbanPop', 'Assault')]
+```
+
+`[` has a flexible syntax, it let's you do things like:
+
+- `dataset["row_name(s)", "column_name(s)"]`
+- `dataset[row_number(s), column_number(s)]`.
+- `dataset[logical_vector(s), logical_vector(s)]`
+- Different mechanism for the row and column arguments, such as `dataset[logical_vector, column_number]`
+
+Try it out with the `USArrests` data below.
+
+```{webr-r}
+USArrests['Alabama', 'Murder']
+#USArrests[1, 1]
+#USArrests[USArrests$UrbanPop < 55 & USArrests$Assault > 200, c('UrbanPop', 'Assault')]
+```
+
+## R Data Structures
+
+We've overviewed some of R's unique strengths in regards to data, modelling, and plotting, as well as the associated syntax. While getting started, we can oversimplify and describe everything in R as either **data** or a **function**. In this section, we'll focus on examining data more closely.
+
+### Vectors
+
+In R, vectors are the simplest data structure, not scalars. This is a unique feature, and is incredibly useful for working with tabular data as in statistics. We get vectorized operations "out-of-the-box" with R.
+
+Below, `:` is an infix function for creating a vector as a range of integers as `start:end`. `c()` is a function for **c**ombining vectors. `rep(thing_to_repeat, repeated_this_many_times)` is another function. These are just a few ways to create vectors. You can assign the value of a vector to a name with `<-` (often called a variable in programming).
+
+```{webr-r}
+1:3 * 2
+#c(1, 2, 3)
+#c(1:2, 3)
+#rep(1,3)
+#1:3 * rep(2,3)
+#result <- 1:3 * 2
+#result
+```
+
+Notice that `1:3 * 2` and `1:3 * rep(2,3)` return the same result? This is because of R's recycling rules, when you try to perform an element-by-element operation using vectors with sizes that don't match, R repeats the shorter one so that it "grows" to the right size. For `1:3 * 2` the shorter vector is of length 1, is repeated to match the longer vector of length 3, and therefore works as expected. Recycling of shorter vectors is really convinient, but causes strange results sometimes, as in `1:3 * 1:2`.
+
+```{webr-r}
+1:3 * 2
+#1:3 * 1:2
+```
+
+In the examples above, we've only dealt with **integer** vectors. We can also create **character** vectors, **double** precision floating point number vectors, and **logical** vectors. These constitute the **atomic** vectors most commonly used.
+
+```{webr-r}
+typeof(1:3)
+#typeof(c('a', 'b', 'c'))
+#typeof(c(1.1, 2.2))
+#typeof(c(TRUE, FALSE))
+```
+
+Logical vectors are frequently created using comparison operators.
+
+```{webr-r}
+1:3 == c(1, 1, 3)
+#1:3 >= c(1, 1, 3)
+#1:3 < c(1, 1, 3)
+#1:3 %in% c(1, 5)
+#'cat' %in% c('dog', 'cat', 'chicken')
+```
+
+R will coerce the types of vectors as needed in order to perform operations. It will "try it's best" to give an answer by coercing from logical to number to character as needed.
+
+```{webr-r}
+1:3 + TRUE
+#(1:3 * TRUE) == (1:3 * 1)
+#(1:3 * FALSE) == (1:3 * 0)
+#paste('number', 1:3)
+```
+
+This type coercion is considered cringe by some. Whole languages such as TypeScript exist on the premise that such type coersion is bad form. For R though, I think it makes sense. It let's you do things like count the multiples of 17 from 1 to 100 like so (`%%` is the modulus operator, it returns the remainder of dividing the thing on the left by the thing on the right).
+
+```{webr-r}
+sum(1:100 %% 17 == 0)
+```
+
+Alright, that's a contrived example. We'll get to a more realistic one before too long.
+
+Be careful with type conversion in complex code, it can have unexpected results, such as if it tries to combine an integer and a character vector. All elements of a vector must have the same type, which is why `typeof(c(1:3, 'cat'))` coerces the numbers to characters and evaluates to "character".
+
+```{webr-r}
+c(1:3, 'cat')
+#typeof(c(1:3, "cat"))# r let's you use `'` and `"` to denote characters.
+```
+
+The last important vector is the vector of vectors, also known as recursive vectors, or lists. Lists allow (but don't require) you to give a name to each vector, and lists may contain any type of vector of any length, including other lists! If the vector (right side of `=`) is given a name (left side of `=`), then you can extract it with `$name` or `[["name"]]`. Regardless of name, you can extract elements by number.
+
+```{webr-r}
+test_list <- list(integer = 1:3, character = c('a','b','c'), recursive_vector = list(logical = c(TRUE, FALSE), state.abb))
+str(test_list)
+#test_list$integer
+#test_list[['character']]
+#test_list[['character']][2]
+#test_list[[3]][[2]][5]
+```
+
+### Data Frames
+
+R does have data structures for matrices (including matrics with > 2 dimensions, which it calls arrays), but the most common data structure for 2 dimmensional, tabular data is the `data.frame`. A data frame is a special kind of list that requires all elements have the same length, has additional properties like `rownames`, and gets special treatment from many functions.
+
+```
+state <- data.frame(short_name = state.abb, long_name = state.name)
+state
+#typeof(state)
+#rownames(state)
+#str(state)
+```
+
+You can assign new elements (aka columns or variables) to the `list` / `data.frame`. Below, `grepl()` is a function that returns `TRUE` if the text in the first argument is included in the text of the second argument. If you think `grepl` is a terribly weird name for such a function, you're not alone (more on that towards the end). This [video](https://www.youtube.com/watch?v=NTfOnGZUZDk), and `?grepl`, have hints at what the author was likely thinking when they chose such a name.
+
+```
+state$starts_with_A <- grepl('A', state$long_name)
+#str(state)
+#head(state, 10)
+#tail(state, 10)
+count_of_states_that_start_with_A <- sum(state$starts_with_A)
+```
+
+There are many more data structures available for R, but with the most common covered let's move on to functions.
+
+## R Functions
+
+ [R, at its heart, is a functional language.](https://adv-r.hadley.nz/fp.html#fp) This means a few things:
+
+ - We often solve problems by composing several functions which all have clear and explicit inputs and outputs, and are individually simple, but taken together achieve complex operations in bite sized bits.
+ - We can do crazy things with functions, such as accept functions as arguments, or return functions.
+
+For example, count the states by the first letter of their name like so.
+
+```{webr-r}
+sapply(
+  unique(substr(state.name, 1, 1)),
+  function (chr) sum(chr == substr(state.name, 1, 1))
+)
+```
+
+`sapply` is a function that **s**implifies the result off **apply**ing the function provided as the second argument, to each element of the vector provided in the first argument.
+
+There are pinches of [syntactic sugar](https://en.wikipedia.org/wiki/Syntactic_sugar) that we can add to make the operation read more like an english sentence, `|>` and `\()`. `|>` takes the result of the thing on the left and passes it to the first argument of the thing on the right. `\()` is short for `function ()`. Together, they let us rewrite the above like so.
+
+```{webr-r}
+state.name |>
+substr(1, 1) |>
+unique() |>
+sapply(\(chr) sum(chr == substr(state.name, 1, 1)))
+```
+
+Which reads:
+- start with the `state.name` vector, and then
+- take the `substr`ing of it starting with the first character and keeping 1 character, and then
+- take the `unique` values, and then
+- simply apply a function that returns the sum of the number of times the argument is equal to the first letter of the `state.name`s vector to every element.
+
+## The End (of my work so far)
+
+We've meandered through a few of the things that make R special, including:
+
+- Built in documention
+- Counting that starts at 1 (most programming languages start counting at 0)
+- Rich data structures built in, in particular, for tabular data
+- Analytical tools such as for statistics and plotting provided in base R, with no extra packages needed
+
+Other things that make R special that we haven't gone over are:
+
+- It also has a vast ecosystem of extensions
+- It priveleges functional programming stylers
+
+This resource is a work in progress. We'll include more material over time.
+
+## Going Further
+
+To get all the R goodies, you'll have to install it. Refer to your organization's guidance, or a [CRAN mirror](https://cran.case.edu/) for more info.

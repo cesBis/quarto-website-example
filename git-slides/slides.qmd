@@ -1,0 +1,214 @@
+---
+title: Welcome to Git
+format:
+    revealjs:
+        scrollable: true
+---
+
+## Outline
+
+- Intro to Concepts (30 min)
+- Some Setup (20min)
+- Break (10min)
+- Exercises (45min)
+- Reflection (15min)
+
+# Abstractions
+
+## What Now?
+
+- Abstractions are mental models.
+- Adopting the git way of thinking involves "leveling up" your abstraction of what matters in files and directories.
+- Abstractions are hard, so don't worry if you don't get it right away.
+
+Let's set up for an analogy to familiar abstractions; numbers, tables, and plots.
+
+## Numbers
+
+Bellamy was just born and weighs 8lbs.
+Conner is 26 and weighs 142lbs.
+Drew is 44 and weighs 209lbs.
+Erick is 52 and weighs 150lbs.
+
+## Table
+
+|Name    | Age | Weight |
+|--------|-----|--------|
+|Bellamy |  0  |   8    |
+|Conner  | 26  | 142    |
+|Drew    | 44  | 209    |
+|Erick   | 52  | 150    |
+
+## Plot
+
+![](media/plots-are-abstractions.png){fig-align="center"}
+
+# Intro to Concepts
+
+## Git Terminology
+
+- Commits are snapshots of work at a point.
+- Branches are convenient names for the most recent commit in a work stream.
+- Remotes are other repositories the code is aware of.
+- Merging takes multiple branches from local or remote repos and combines them.
+
+## Git Terms Analogized to the Familiar Abstractions
+
+- Saved files are like numbers.
+- Commits are like tables.
+- Branches are like plots.
+
+## Abstractions help Organize Information
+
+![](media/mental-model.png){fig-align="center"}
+
+## Git vs GitHub
+
+- Git is a tool for managing source code.
+- GitHub augments git with tools for discussing source code.
+
+![](media/git-github-pic-insta.png){fig-align="center"}
+
+## GitHub Terminology
+
+- Issues are documented needs for change.
+- Pull Requests are running requests to merge changes from a branch.
+
+# Some Setup
+
+## wifi
+
+**Name:** MT Conference Center
+
+**Password:** ConferenceMT
+
+## Just trust me, your life will be easier
+
+- Press the windows key
+- Type and select `edit environment variables for your account`
+- Click `New`
+- Give it the name `EDITOR` and the value `notepad.exe`
+- Click `OK`
+- Click `New`
+- Give it the name `HOME` and the value `C:\Users\FirstName.LastName`
+- Click `OK`
+
+## Tabs to Open
+
+- [GitHub](https://github.com/Milliman-IndyHealth/git-training)
+- [Databricks](https://milliman-indyhealth.cloud.databricks.com/)
+
+## Linking GitHub and Databricks
+
+- Create a PAT on GitHub
+- Link Databricks to GitHub using the PAT
+
+### Create a PAT on GitHub
+
+- Go to your GitHub profile settins
+- Select `Developer Settings`
+- Select `Personal Access Tokens` / `Tokens (classic)`
+- Generate a new classic token with all permissions
+- Temporarily save the token to a text file
+- Configure SSO for Milliman-IndyHealth
+
+### Link Databricks to GitHub using the PAT
+
+- Put the PAT into you Databricks settings
+    - Go to your Databricks user settings
+    - Select `Linked Accounts`
+    - Set your Git provider and credentials
+
+# Exercises
+
+## Attendance Exercise {.smaller}
+
+### Overview
+
+- Retrieve the code, make a change, and submit your change to GitHub.
+- Since many people have edited the same file, there will be conflicts to resolve.
+- Resolve differences and merge the work.
+
+### Retrieve the Code and Make a Change
+
+- `git clone` the repository to your machine: https://github.com/Milliman-IndyHealth/git-training.git
+- `git switch -c attendance-20231107-YOURNAME`
+- Open `exercises/attendance-20231107.txt` and follow the instructions therein
+- `git add exercises/attendance-20231107.txt`
+- `git commit -m "updated exercises/attendance-20231107.txt"`
+- `git push`. This will fail. Read and follow the instructions
+- Create a Pull Request on GitHub.
+
+### Resolve Conflicts and Merge Work
+
+- `git switch develop`
+- `git pull`
+- `git switch attendance-20231107-YOURNAME`
+- `git merge develop`, resolve conflicts in a text editor
+- `git push`
+- Merge the Pull Request on GitHub
+
+## Databricks Exercise {.smaller}
+
+### Overview
+
+- Create a computer to lease
+- Clone the repository
+- Estimate prevalence of hemophilia among males
+- Open a Pull Request
+
+### Create a Computer to Lease
+
+- Login to databricks at https://milliman-indyhealth.cloud.databricks.com/
+- Select `Compute`, and `Create with HIPAA_pharma_dbrk`
+- Name the leased compute `git training`
+- Select `Single Node`
+- Leave the remaining settings at their default values.
+- Select `Create Compute`
+
+### Retrieve the Code and Make a Change
+
+- Clone the repository to your `Workspace` / `Repos`: https://github.com/Milliman-IndyHealth/git-training.git
+- Open `exercises/hemophilia-prevalence-in-claims.py`
+- Run the present code
+- Copy and modify code from https://github.com/Milliman-IndyHealth/htc-reimbursement-landscape/blob/4722c3fb525d754bb654bf4b0ff022a1397bcc32/1-member-cohort.py#L73 to determine prevalence of hemophilia in our cohort. This will take several minutes to run.
+- Commit your changes to a new branch, and open a PR
+
+# Reflection
+
+## What was Learned
+
+- Key terms for Git and GitHub
+- How to make commits and resolve merge conflicts
+
+## Advanced Features
+
+- You can undo specific commits with `git revert`
+- You can grab specific files from specific commits with `git checkout`
+- You can move a set of changes to a different branch with `git rebase`
+- You can pluck specific commits from a branch's history with `git cherry-pick`
+
+## Impacts on Workflow
+
+- It enables us to organize code by project and deliverable, regardless of who ran the code where.
+- It enables us to organize changes by the goal they accomplished.
+- It anchors discussion to specific code, and specific changes.
+- It encourages us to think in incremental changes, which can be a helpful mindset for large projects.
+- It makes it easier to share code.
+
+## How to get started?
+
+- Go make a repository!
+- Struggle on.
+
+## Links to Other Resources
+
+- Videos
+   - [Git 1: What is Git? - YouTube](https://www.youtube.com/watch?v=-m2J3WqL6Ec&list=PL5wn5CYPHXCMIBRbE-d0n_6iqTWHdjc7x)
+   - [What is GitHub? - YouTube](https://www.youtube.com/watch?v=w3jLJU7DT5E)
+   - [Git and GitHub for Beginners - Crash Course](https://www.youtube.com/watch?v=RGOj5yH7evk)
+- Documentation
+   - [Git - Documentation (git-scm.com)](https://git-scm.com/doc)
+   - [Indy Health GitHub QRM Guidelines](https://github.com/Milliman-IndyHealth/QRM/blob/4bb5168fbc0d3c4b355060b0bd80dfc1678154dc/GitHub_Guidelines.md)
+- Cheat Sheets
+   - [Git Cheatsheet :: NDP Software](https://ndpsoftware.com/git-cheatsheet.html#loc=index;)

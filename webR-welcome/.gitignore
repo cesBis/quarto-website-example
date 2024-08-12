@@ -1,0 +1,8 @@
+# these files come with `quarto add coatless/quarto-webr`
+_extensions/
+webr-serviceworker.js
+webr-worker.js
+
+# these are built by `quarto render test.qmd`
+index.html
+index_files/
